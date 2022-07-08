@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class NavmeshAgentScript : MonoBehaviour {
 
     public Transform target;
+    public AudioSource audioSource;
+    public AudioClip[] clip;
     NavMeshAgent agent; 
 
     // Use this for initialization
@@ -19,5 +21,9 @@ public class NavmeshAgentScript : MonoBehaviour {
 	void Update () 
     {
         agent.SetDestination(target.position);
+        if (audioSource.isPlaying == false)
+        {
+            audioSource.PlayOneShot(clip[Random.Range(0, clip.Length-1)]);
+        }
 	}
 }

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public AudioSource playerAudio;
+    public AudioClip[] heartbeat;
+
     public float playerHealth;
     public Text healthText;
     public float playerMaxHealth = 100;
@@ -41,6 +44,33 @@ public class PlayerHealth : MonoBehaviour
             {
                 playerHealth = 0;
                 playerDeath();
+            }
+            if (playerAudio.isPlaying == false)
+            {
+                if (playerHealth <= 12)
+                {
+                    playerAudio.PlayOneShot(heartbeat[5]);
+                }
+                else if (playerHealth <= 24)
+                {
+                    playerAudio.PlayOneShot(heartbeat[4]);
+                }
+                else if (playerHealth <= 36)
+                {
+                    playerAudio.PlayOneShot(heartbeat[3]);
+                }
+                else if (playerHealth <= 48)
+                {
+                    playerAudio.PlayOneShot(heartbeat[2]);
+                }
+                else if (playerHealth <= 60)
+                {
+                    playerAudio.PlayOneShot(heartbeat[1]);
+                }
+                else if (playerHealth <= 72)
+                {
+                    playerAudio.PlayOneShot(heartbeat[0]);
+                }
             }
         }
     }

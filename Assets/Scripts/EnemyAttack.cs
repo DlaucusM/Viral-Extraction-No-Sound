@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+    public AudioSource attackSource;
+    public AudioClip[] attackSounds;
     public bool instaDeathAttacker;
     public float attackRate;
     public float damageMulitplier = 1.0f;
@@ -15,7 +17,6 @@ public class EnemyAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        attackRate = 0.05f;
     }
 
     // Update is called once per frame
@@ -38,8 +39,14 @@ public class EnemyAttack : MonoBehaviour
 
                 timer = timer + Time.deltaTime;
 
+                if (attackSource.isPlaying == false)
+                {
+                    attackSource.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Length-1)]);
+                }
+
                 if (timer >= attackRate)
                 {
+                    
                     other.gameObject.GetComponent<PlayerHealth>().playerHealth = health - 1 * damageMulitplier;
                     timer = 0.0f;
                 }

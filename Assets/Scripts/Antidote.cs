@@ -19,7 +19,7 @@ public class Antidote : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             gotAntidote = true;
-            ButtonToEnable.GetComponent<BoxCollider>().enabled = true;
+            ButtonToEnable.GetComponent<TriggerFinalDoor>().open = true;
             //Lockcheck takes place at button.
 
             Destroy(gameObject);

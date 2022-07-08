@@ -6,6 +6,11 @@ using TMPro;
 
 public class Gun : MonoBehaviour
 {
+    public AudioSource playerGun;
+    public AudioClip reloadClip;
+    public AudioClip shootClip;
+    public AudioClip[] enemyDeathSounds;
+    public AudioClip dryFireClip;
     public GameObject bulletPrefab;
     GameObject bulletSpawnPoint;
     public bool canFire;
@@ -66,16 +71,23 @@ public class Gun : MonoBehaviour
     //Shooting function with ammo taken away after each shot while making sure the player can't shoot and reload at the same time
     public void Shoot()
     {
-
-        if (Input.GetMouseButtonDown(0) && canFire && !isReloading)
+        if (Input.GetMouseButtonDown(0) && currentClipAmmo == 0)
+        {
+            playerGun.PlayOneShot(dryFireClip);
+            return;
+        }
+        else if (Input.GetMouseButtonDown(0) && canFire && !isReloading)
         {
             StartCoroutine(FireRate());
         }
+        
 
         IEnumerator FireRate()
         {
+            playerGun.PlayOneShot(shootClip);
             canFire = false;
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+            bullet.transform.SetParent(this.transform);
             yield return new WaitForSeconds(rateOfFire);
             canFire = true;
             currentClipAmmo--;
@@ -85,7 +97,7 @@ public class Gun : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
-
+        playerGun.PlayOneShot(reloadClip);
         yield return new WaitForSeconds(reloadTime);//after the reload time the script checks if max ammo in clip is low and loads it to max from reserve accurately
         if(reserveSize != 0 && currentClipAmmo < maxAmmo)
         {

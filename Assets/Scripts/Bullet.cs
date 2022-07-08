@@ -27,7 +27,8 @@ public class Bullet : MonoBehaviour
 
         if (collision.gameObject.tag == "Enemy")
         {
-            Instantiate(splatEffect, collision.transform.position, Quaternion.identity);
+            GameObject splash = Instantiate(splatEffect, collision.transform.position, Quaternion.identity);
+            splash.transform.SetParent(this.transform.parent.transform);
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag != "Player")

@@ -2,9 +2,13 @@
 
 // THIS PLAYER MOVE CLASS WILL ALLOW THE GAMEOBJECT TO MOVE BASED ON CHARACTERCONTROLLER
 
+
 public class FPSMovement : MonoBehaviour
 {
     // VARS
+    public AudioClip[] footsteps;
+    public AudioSource currentStep;
+
     public UnityEngine.CharacterController m_charControler;
     public float m_movementSpeed = 12f;
     public float m_runSpeed = 1.5f;
@@ -23,7 +27,7 @@ public class FPSMovement : MonoBehaviour
     public KeyCode m_left;
     public KeyCode m_right;
     public KeyCode m_sprint;
-    public KeyCode m_jump;
+    public KeyCode m_jump; 
 
     private float m_finalSpeed = 0;
 
@@ -50,7 +54,15 @@ public class FPSMovement : MonoBehaviour
 
         if (Input.GetKey(m_forward) || Input.GetKey(m_back) || Input.GetKey(m_left) || Input.GetKey(m_right))
         {
-            move = transform.right * x + transform.forward * z; // calculate the move vector (direction)          
+            move = transform.right * x + transform.forward * z; // calculate the move vector (direction)
+             if (x != 0 && currentStep.isPlaying == false || z != 0 && currentStep.isPlaying == false)
+             {
+                 currentStep.PlayOneShot(footsteps[Random.Range(0, footsteps.Length-1)]);
+             }
+             else if (x == 0 && z == 0 && currentStep.isPlaying == true)
+            {
+                currentStep.Stop();
+            }
         }
 
         MovePlayer(move); // Run the MovePlayer function with the vector3 value move
